@@ -123,6 +123,7 @@ Nothing is rounded until it is displayed; currency renders as `₱1,234.50`.
 ├── tests/                        # Node unit tests for the maths and rendering
 └── tools/
     ├── serve.mjs                 # Dependency-free static dev server
+    ├── build-single.mjs          # Bundle to one self-contained HTML file
     ├── e2e.mjs                   # Browser smoke test
     └── generate-icons.mjs        # SVG → PNG icon generation
 ```
@@ -132,10 +133,17 @@ Nothing is rounded until it is displayed; currency renders as `₱1,234.50`.
 ```bash
 npm start      # serve on :8080 — no dependencies needed
 npm test       # unit tests: calculations, markdown layout, validation
+npm run build  # bundle into one HTML file at dist/logicquot-preview.html
 npm install    # only needed for the two commands below (installs Playwright)
 npm run e2e    # browser smoke test (needs the server running)
 npm run icons  # regenerate PNG icons from icons/*.svg
 ```
+
+`npm run build` flattens the ES modules into a single self-contained page, for
+hosting somewhere that only takes one file. It cannot carry a service worker or
+manifest, so that build has no offline or install support, and file downloads
+become an on-screen copyable panel — the calculations, validation, Markdown
+output and local saving are the same code.
 
 `npm run e2e` drives a real Chromium through the whole app — loading the sample,
 editing line items, switching labor modes and VAT status, saving, exporting

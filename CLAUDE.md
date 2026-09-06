@@ -48,6 +48,7 @@ dev-only dependency used for icon generation and the browser smoke test.
 npm start      # static server on :8080 (tools/serve.mjs, zero dependencies)
 npm test       # unit tests (calculations, markdown layout, validation)
 npm run e2e    # browser smoke test — needs the server running + npm install
+npm run build  # single-file bundle -> dist/ (see tools/build-single.mjs)
 npm run icons  # regenerate PNGs from icons/*.svg
 ```
 
@@ -61,6 +62,12 @@ calculation-rule change and needs the doc updated too.
 
 Floating-point note: totals are compared with a tolerance, not `===`, precisely
 because intermediates are deliberately unrounded.
+
+`tools/build-single.mjs` inlines the modules by hand-maintained dependency
+order and patches a few functions by exact source match. It throws rather than
+emitting a broken bundle, so if you rename a module or edit `loadSample`,
+`download`, `applyTheme` or the service-worker registration in `js/app.js`,
+run `npm run build` and update the patch targets it reports.
 
 ## When adding or renaming files
 
