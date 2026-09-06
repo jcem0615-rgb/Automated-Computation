@@ -1,0 +1,50 @@
+{
+  "contractor": {
+    "company_name": "Alpha Builders Corp.",
+    "prepared_by": "Juan Dela Cruz, Project Estimator",
+    "contact_number": "0917-123-4567",
+    "email": "juan@alphabuilders.ph",
+    "tin": "123-456-789-000"
+  },
+  "client": {
+    "client_name": "Maria Santos",
+    "company": "Santos Family Residence",
+    "contact_number": "0918-765-4321",
+    "email": "maria.santos@example.com",
+    "site_address": "123 Mabini St., Quezon City, Metro Manila"
+  },
+  "metadata": {
+    "reference_number": "QTN-2026-0091",
+    "issue_date": "2026-09-06",
+    "validity_period": "30 days from issue date"
+  },
+  "materials": [
+    { "description": "Portland Cement 40kg", "qty": 50, "unit": "bag", "unit_cost": 260.00, "markup_pct": 15 },
+    { "description": "Deformed Steel Bar 10mm x 6m", "qty": 100, "unit": "pc", "unit_cost": 220.00, "markup_pct": 12 },
+    { "description": "CHB 4-inch", "qty": 800, "unit": "pc", "unit_cost": 13.50, "markup_pct": 10 }
+  ],
+  "labor": {
+    "workers": 5,
+    "daily_rate": 750.00,
+    "days": 20,
+    "flat_fee": null
+  },
+  "direct_fees": {
+    "mobilization_delivery": 5000.00,
+    "permits_clearances": 3500.00,
+    "equipment_rental": 8000.00,
+    "other": []
+  },
+  "tax_and_terms": {
+    "vat_status": "12% VAT",
+    "downpayment_pct": 50,
+    "progress_billing_pct": 40,
+    "final_pct": 10,
+    "payment_options": ["Bank Transfer", "GCash", "Check"],
+    "exclusions": [
+      "Main power tapping fees",
+      "Structural modifications not in scope",
+      "Work outside the site address listed above"
+    ]
+  }
+}
