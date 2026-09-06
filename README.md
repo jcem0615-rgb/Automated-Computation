@@ -30,20 +30,30 @@ a job site with no signal.
 
 ## Running it
 
-Any static file server works — the app has no build step.
+There is no build step and nothing to install — you only need Node.
 
 ```bash
-npm start          # http://127.0.0.1:8080
+git clone https://github.com/jcem0615-rgb/Automated-Computation.git
+cd Automated-Computation
+git checkout claude/logicquot-pwa-app-ma2mb2
+npm start
 ```
 
-Or with anything else you have handy:
+Then open **http://localhost:8080**. To use a different port:
+
+```bash
+npm start -- 8081
+```
+
+Any other static server works just as well:
 
 ```bash
 python3 -m http.server 8080
+npx http-server . -p 8080 -c-1
 ```
 
-Then open the URL and use **Install** (Chromium/Edge) or **Share → Add to Home
-Screen** (iOS Safari) to install it.
+Once it is open, use **Install** (Chrome/Edge, in the address bar) or
+**Share → Add to Home Screen** (iOS Safari) to install it as an app.
 
 > A service worker requires `https://` or `localhost`. Opening `index.html`
 > directly from the filesystem will not register one, and ES modules will be
@@ -111,15 +121,19 @@ Nothing is rounded until it is displayed; currency renders as `₱1,234.50`.
 ├── examples/sample_input.json    # Sample project (also loaded by the app)
 ├── icons/                        # SVG source + generated PNG app icons
 ├── tests/                        # Node unit tests for the maths and rendering
-└── tools/                        # Icon generation, browser smoke test
+└── tools/
+    ├── serve.mjs                 # Dependency-free static dev server
+    ├── e2e.mjs                   # Browser smoke test
+    └── generate-icons.mjs        # SVG → PNG icon generation
 ```
 
 ## Development
 
 ```bash
-npm test     # unit tests: calculations, markdown layout, validation
-npm start    # serve on :8080
-npm run e2e  # browser smoke test (needs the server running)
+npm start      # serve on :8080 — no dependencies needed
+npm test       # unit tests: calculations, markdown layout, validation
+npm install    # only needed for the two commands below (installs Playwright)
+npm run e2e    # browser smoke test (needs the server running)
 npm run icons  # regenerate PNG icons from icons/*.svg
 ```
 

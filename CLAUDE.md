@@ -45,11 +45,14 @@ dev-only dependency used for icon generation and the browser smoke test.
 ## Working on it
 
 ```bash
+npm start      # static server on :8080 (tools/serve.mjs, zero dependencies)
 npm test       # unit tests (calculations, markdown layout, validation)
-npm start      # static server on :8080
-npm run e2e    # browser smoke test — needs the server running
+npm run e2e    # browser smoke test — needs the server running + npm install
 npm run icons  # regenerate PNGs from icons/*.svg
 ```
+
+`npm start` and `npm test` must keep working on a bare clone with no
+`npm install` — only the Playwright-backed scripts may require dependencies.
 
 Both suites should pass before committing. `tests/quotation.test.mjs` pins the
 sample project's figures (₱45,800.00 raw → ₱51,470.00 marked up → ₱142,970.00
