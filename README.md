@@ -119,7 +119,7 @@ Nothing is rounded until it is displayed; currency renders as `₱1,234.50`.
 ├── docs/                         # The spec: calculation rules + input checklist
 ├── templates/                    # The fixed Markdown output layout
 ├── examples/sample_input.json    # Sample project (also loaded by the app)
-├── icons/                        # SVG source + generated PNG app icons
+├── icons/                        # logo.svg (master) + generated PNG app icons
 ├── tests/                        # Node unit tests for the maths and rendering
 └── tools/
     ├── serve.mjs                 # Dependency-free static dev server
@@ -136,7 +136,7 @@ npm test       # unit tests: calculations, markdown layout, validation
 npm run build  # bundle into one HTML file at dist/logicquot-preview.html
 npm install    # only needed for the two commands below (installs Playwright)
 npm run e2e    # browser smoke test (needs the server running)
-npm run icons  # regenerate PNG icons from icons/*.svg
+npm run icons  # regenerate PNG icons from icons/logo.svg
 ```
 
 `npm run build` flattens the ES modules into a single self-contained page, for

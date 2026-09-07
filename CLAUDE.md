@@ -49,7 +49,7 @@ npm start      # static server on :8080 (tools/serve.mjs, zero dependencies)
 npm test       # unit tests (calculations, markdown layout, validation)
 npm run e2e    # browser smoke test — needs the server running + npm install
 npm run build  # single-file bundle -> dist/ (see tools/build-single.mjs)
-npm run icons  # regenerate PNGs from icons/*.svg
+npm run icons  # regenerate PNGs from icons/logo.svg
 ```
 
 `npm start` and `npm test` must keep working on a bare clone with no
@@ -68,6 +68,10 @@ order and patches a few functions by exact source match. It throws rather than
 emitting a broken bundle, so if you rename a module or edit `loadSample`,
 `download`, `applyTheme` or the service-worker registration in `js/app.js`,
 run `npm run build` and update the patch targets it reports.
+
+`icons/logo.svg` is the only icon artwork. `npm run icons` rasterises it to
+every PNG size and derives the maskable variant from it in-memory, padded into
+the 80% safe zone — so edit the SVG, never the PNGs, and re-run the script.
 
 ## When adding or renaming files
 

@@ -1,7 +1,7 @@
 /* LogicQuot service worker — makes the whole app usable with no connection.
  * Bump CACHE_VERSION whenever the precached asset list or their contents change. */
 
-const CACHE_VERSION = 'logicquot-v1.0.0';
+const CACHE_VERSION = 'logicquot-v1.1.0';
 const PRECACHE = [
   './',
   './index.html',
@@ -16,8 +16,7 @@ const PRECACHE = [
   './js/storage.js',
   './js/validate.js',
   './examples/sample_input.json',
-  './icons/favicon.svg',
-  './icons/maskable.svg',
+  './icons/logo.svg',
   './icons/icon-180.png',
   './icons/icon-192.png',
   './icons/icon-512.png',

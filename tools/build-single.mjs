@@ -181,7 +181,7 @@ $('#export-copy').addEventListener('click', async () => {
 const html = read('index.html');
 const body = html.slice(html.indexOf('<body>') + '<body>'.length, html.lastIndexOf('</body>'));
 
-const logo = `data:image/svg+xml;base64,${Buffer.from(read('icons/favicon.svg')).toString('base64')}`;
+const logo = `data:image/svg+xml;base64,${Buffer.from(read('icons/logo.svg')).toString('base64')}`;
 
 // The artifact runtime supplies <head>; the page must not set color-scheme
 // only in <meta>, so it is declared on the token blocks instead.
@@ -198,7 +198,7 @@ const css = read('css/styles.css')
 
 let page = body
   .replace(/\s*<script type="module" src="\.\/js\/app\.js"><\/script>/, '')
-  .replace(/src="\.\/icons\/favicon\.svg"/g, `src="${logo}"`)
+  .replace(/src="\.\/icons\/logo\.svg"/g, `src="${logo}"`)
   // Downloads cannot leave the sandbox, so the labels promise what happens.
   .replace('>Download .md<', '>Show Markdown<')
   .replace('>Download .json<', '>Show JSON<')
