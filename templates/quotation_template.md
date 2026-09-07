@@ -45,7 +45,7 @@ Validity: [Validity Period]
 
 | Description | Amount (₱) |
 | :--- | :--- |
-| **Total Materials (Marked-Up)** | ₱[Amount] |
+| **Total Materials** | ₱[Amount] |
 | **Total Labor Cost** | ₱[Amount] |
 | **Total Direct Project Fees** | ₱[Amount] |
 | **Subtotal** | **₱[Subtotal]** |

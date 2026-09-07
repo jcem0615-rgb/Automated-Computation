@@ -136,7 +136,7 @@ export function renderQuotationHTML(q) {
   <h2>5. Final Cost Summary</h2>
   <table class="totals">
     <tbody>
-      <tr><td>Total Materials (Marked-Up)</td><td class="num">${esc(peso(t.materials.totalMarkedUp))}</td></tr>
+      <tr><td>Total Materials</td><td class="num">${esc(peso(t.materials.totalMarkedUp))}</td></tr>
       <tr><td>Total Labor Cost</td><td class="num">${esc(peso(t.labor.total))}</td></tr>
       <tr><td>Total Direct Project Fees</td><td class="num">${esc(peso(t.directFees.total))}</td></tr>
       <tr><td><strong>Subtotal</strong></td><td class="num"><strong>${esc(peso(t.subtotal))}</strong></td></tr>

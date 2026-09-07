@@ -98,7 +98,7 @@ export function quotationToMarkdown(q) {
   L.push('');
   L.push('| Description | Amount (₱) |');
   L.push('| :--- | :--- |');
-  L.push(`| **Total Materials (Marked-Up)** | ${peso(totals.materials.totalMarkedUp)} |`);
+  L.push(`| **Total Materials** | ${peso(totals.materials.totalMarkedUp)} |`);
   L.push(`| **Total Labor Cost** | ${peso(totals.labor.total)} |`);
   L.push(`| **Total Direct Project Fees** | ${peso(totals.directFees.total)} |`);
   L.push(`| **Subtotal** | **${peso(totals.subtotal)}** |`);
