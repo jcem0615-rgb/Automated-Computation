@@ -243,10 +243,6 @@ const extraCSS = `
   font-size: .82rem; line-height: 1.45; border-bottom: 1px solid var(--border);
 }
 .preview-note a { color: inherit; font-weight: 700; }
-:root[data-theme="dark"] .preview-note { color: var(--brand); }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .preview-note { color: var(--brand); }
-}
 
 .export-panel {
   position: fixed; inset: auto 0 0 0; z-index: 40;
