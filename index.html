@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>LogicQuot — Philippine Project Quotations</title>
+<meta name="description" content="Build itemized Philippine Peso project quotations offline. Markups, labor, direct fees and VAT calculated for you." />
+<meta name="theme-color" content="#1268a3" />
+<meta name="color-scheme" content="light dark" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="LogicQuot" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<link rel="manifest" href="./manifest.webmanifest" />
+<link rel="icon" href="./icons/logo.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="./icons/icon-180.png" />
+<link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="app-bar">
+  <div class="app-bar__brand">
+    <img src="./icons/logo.svg" alt="" class="app-bar__logo" width="32" height="32" />
+    <div>
+      <span class="app-bar__title">LogicQuot</span>
+      <span class="app-bar__tagline">Philippine Project Estimator</span>
+    </div>
+  </div>
+  <div class="app-bar__actions">
+    <span id="offline-badge" class="badge badge--offline" hidden>Offline</span>
+    <button id="install-btn" class="btn btn--ghost" type="button" hidden>Install</button>
+    <button id="theme-btn" class="btn btn--icon" type="button" aria-label="Switch colour theme" title="Switch colour theme">
+      <span aria-hidden="true" id="theme-icon">◐</span>
+    </button>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Sections">
+  <a class="tab" href="#/quotations" data-route="quotations">Quotations</a>
+  <a class="tab" href="#/build" data-route="build">Builder</a>
+  <a class="tab" href="#/preview" data-route="preview">Preview</a>
+  <a class="tab" href="#/settings" data-route="settings">Settings</a>
+</nav>
+
+<main id="main" class="app-main">
+  <!-- ============ Quotations list ============ -->
+  <section id="view-quotations" class="view" hidden>
+    <div class="view__head">
+      <div>
+        <h1>Saved quotations</h1>
+        <p class="muted">Stored on this device only. Nothing is uploaded anywhere.</p>
+      </div>
+      <div class="view__head-actions">
+        <button id="new-quotation" class="btn btn--primary" type="button">New quotation</button>
+        <button id="load-sample" class="btn" type="button">Load sample</button>
+      </div>
+    </div>
+    <div id="quotation-list" class="card-grid"></div>
+  </section>
+
+  <!-- ============ Builder ============ -->
+  <section id="view-build" class="view" hidden>
+    <div class="builder">
+      <form id="builder-form" class="builder__form" autocomplete="on" novalidate>
+
+        <details class="panel" open>
+          <summary class="panel__summary"><span class="panel__num">1</span> Contractor details</summary>
+          <div class="panel__body grid-2">
+            <label class="field"><span>Company name <em>*</em></span>
+              <input name="contractor.company_name" type="text" placeholder="Alpha Builders Corp." /></label>
+            <label class="field"><span>Prepared by (name &amp; title) <em>*</em></span>
+              <input name="contractor.prepared_by" type="text" placeholder="Juan Dela Cruz, Project Estimator" /></label>
+            <label class="field"><span>Contact number <em>*</em></span>
+              <input name="contractor.contact_number" type="tel" inputmode="tel" placeholder="0917-123-4567" /></label>
+            <label class="field"><span>Email <em>*</em></span>
+              <input name="contractor.email" type="email" inputmode="email" placeholder="you@company.ph" /></label>
+            <label class="field"><span>TIN / Tax ID</span>
+              <input name="contractor.tin" type="text" placeholder="123-456-789-000" />
+              <small class="hint">Optional, but expected on 12% VAT quotations.</small></label>
+          </div>
+          <div class="panel__foot">
+            <button id="save-contractor" class="btn btn--ghost" type="button">Remember as my default</button>
+            <button id="apply-contractor" class="btn btn--ghost" type="button">Use saved default</button>
+          </div>
+        </details>
+
+        <details class="panel">
+          <summary class="panel__summary"><span class="panel__num">2</span> Client details</summary>
+          <div class="panel__body grid-2">
+            <label class="field"><span>Client name <em>*</em></span>
+              <input name="client.client_name" type="text" placeholder="Maria Santos" /></label>
+            <label class="field"><span>Client company</span>
+              <input name="client.company" type="text" placeholder="Santos Family Residence" /></label>
+            <label class="field"><span>Contact number <em>*</em></span>
+              <input name="client.contact_number" type="tel" inputmode="tel" placeholder="0918-765-4321" /></label>
+            <label class="field"><span>Email <em>*</em></span>
+              <input name="client.email" type="email" inputmode="email" placeholder="client@example.com" /></label>
+            <label class="field field--wide"><span>Project site address <em>*</em></span>
+              <textarea name="client.site_address" rows="2" placeholder="123 Mabini St., Quezon City, Metro Manila"></textarea></label>
+          </div>
+        </details>
+
+        <details class="panel">
+          <summary class="panel__summary"><span class="panel__num">3</span> Quotation metadata</summary>
+          <div class="panel__body grid-2">
+            <label class="field"><span>Reference number <em>*</em></span>
+              <span class="input-row">
+                <input name="metadata.reference_number" type="text" placeholder="QTN-2026-0091" />
+                <button id="suggest-ref" class="btn btn--ghost btn--sm" type="button">Suggest</button>
+              </span></label>
+            <label class="field"><span>Issue date <em>*</em></span>
+              <input name="metadata.issue_date" type="date" /></label>
+            <label class="field field--wide"><span>Validity period <em>*</em></span>
+              <input name="metadata.validity_period" type="text" placeholder="30 days from issue date" /></label>
+          </div>
+        </details>
+
+        <details class="panel" open>
+          <summary class="panel__summary"><span class="panel__num">4</span> Bill of materials</summary>
+          <div class="panel__body">
+            <div class="bom-toolbar">
+              <label class="field field--inline"><span>Blanket markup %</span>
+                <span class="input-row">
+                  <input id="blanket-markup" type="number" step="0.01" min="0" placeholder="15" />
+                  <button id="apply-blanket" class="btn btn--ghost btn--sm" type="button">Apply to all</button>
+                </span></label>
+            </div>
+            <div class="table-scroll">
+              <table class="bom" id="bom-table">
+                <thead>
+                  <tr>
+                    <th scope="col" class="bom__desc">Item description</th>
+                    <th scope="col">Qty</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Unit cost (₱)</th>
+                    <th scope="col">Raw total (₱)</th>
+                    <th scope="col">Markup (%)</th>
+                    <th scope="col">Final price (₱)</th>
+                    <th scope="col"><span class="sr-only">Remove</span></th>
+                  </tr>
+                </thead>
+                <tbody id="bom-body"></tbody>
+                <tfoot>
+                  <tr>
+                    <th scope="row" colspan="4">Materials subtotal</th>
+                    <td id="bom-raw-total" class="num">₱0.00</td>
+                    <td></td>
+                    <td id="bom-final-total" class="num strong">₱0.00</td>
+                    <td></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <button id="add-item" class="btn btn--ghost" type="button">+ Add line item</button>
+          </div>
+        </details>
+
+        <details class="panel">
+          <summary class="panel__summary"><span class="panel__num">5</span> Labor &amp; implementation</summary>
+          <div class="panel__body">
+            <fieldset class="segmented">
+              <legend class="sr-only">Labor costing method</legend>
+              <label><input type="radio" name="labor_mode" value="daily" checked /><span>Daily rate</span></label>
+              <label><input type="radio" name="labor_mode" value="flat" /><span>Flat fee</span></label>
+            </fieldset>
+            <div class="grid-3" id="labor-daily">
+              <label class="field"><span>Workers <em>*</em></span>
+                <input name="labor.workers" type="number" min="0" step="1" inputmode="numeric" placeholder="5" /></label>
+              <label class="field"><span>Daily rate (₱) <em>*</em></span>
+                <input name="labor.daily_rate" type="number" min="0" step="0.01" inputmode="decimal" placeholder="750.00" /></label>
+              <label class="field"><span>Days <em>*</em></span>
+                <input name="labor.days" type="number" min="0" step="0.5" inputmode="decimal" placeholder="20" /></label>
+            </div>
+            <div class="grid-3" id="labor-flat" hidden>
+              <label class="field"><span>Flat fee (₱) <em>*</em></span>
+                <input name="labor.flat_fee" type="number" min="0" step="0.01" inputmode="decimal" placeholder="40000.00" /></label>
+            </div>
+            <p class="running-total">Total labor: <strong id="labor-total">₱0.00</strong></p>
+          </div>
+        </details>
+
+        <details class="panel">
+          <summary class="panel__summary"><span class="panel__num">6</span> Direct project fees</summary>
+          <div class="panel__body">
+            <div class="grid-3">
+              <label class="field"><span>Mobilization / delivery (₱)</span>
+                <input name="direct_fees.mobilization_delivery" type="number" min="0" step="0.01" inputmode="decimal" placeholder="5000.00" /></label>
+              <label class="field"><span>Permits &amp; clearances (₱)</span>
+                <input name="direct_fees.permits_clearances" type="number" min="0" step="0.01" inputmode="decimal" placeholder="3500.00" /></label>
+              <label class="field"><span>Equipment &amp; tool rental (₱)</span>
+                <input name="direct_fees.equipment_rental" type="number" min="0" step="0.01" inputmode="decimal" placeholder="8000.00" /></label>
+            </div>
+            <div id="other-fees" class="other-fees"></div>
+            <button id="add-fee" class="btn btn--ghost" type="button">+ Add another fee</button>
+            <p class="running-total">Total direct fees: <strong id="fees-total">₱0.00</strong></p>
+          </div>
+        </details>
+
+        <details class="panel">
+          <summary class="panel__summary"><span class="panel__num">7</span> Tax &amp; payment terms</summary>
+          <div class="panel__body">
+            <fieldset class="segmented">
+              <legend class="sr-only">VAT status</legend>
+              <label><input type="radio" name="tax_and_terms.vat_status" value="Non-VAT" checked /><span>Non-VAT</span></label>
+              <label><input type="radio" name="tax_and_terms.vat_status" value="12% VAT" /><span>12% VAT</span></label>
+            </fieldset>
+            <div class="grid-3">
+              <label class="field"><span>Downpayment % <em>*</em></span>
+                <input name="tax_and_terms.downpayment_pct" type="number" min="0" max="100" step="0.01" inputmode="decimal" placeholder="50" /></label>
+              <label class="field"><span>Progress billing % <em>*</em></span>
+                <input name="tax_and_terms.progress_billing_pct" type="number" min="0" max="100" step="0.01" inputmode="decimal" placeholder="40" /></label>
+              <label class="field"><span>Final turnover %</span>
+                <input name="tax_and_terms.final_pct" type="number" min="0" max="100" step="0.01" inputmode="decimal" placeholder="10" /></label>
+            </div>
+            <p id="schedule-hint" class="hint"></p>
+            <div class="grid-2">
+              <label class="field"><span>Payment options <em>*</em></span>
+                <textarea name="tax_and_terms.payment_options" rows="3" placeholder="Bank Transfer&#10;GCash&#10;Check"></textarea>
+                <small class="hint">One per line.</small></label>
+              <label class="field"><span>Exclusions</span>
+                <textarea name="tax_and_terms.exclusions" rows="3" placeholder="Main power tapping fees&#10;Structural modifications not in scope"></textarea>
+                <small class="hint">One per line.</small></label>
+            </div>
+          </div>
+        </details>
+      </form>
+
+      <aside class="summary" aria-label="Running totals">
+        <div class="summary__sticky">
+          <h2 class="summary__title">Cost summary</h2>
+          <dl class="summary__list">
+            <div><dt>Materials</dt><dd id="sum-materials">₱0.00</dd></div>
+            <div><dt>Labor</dt><dd id="sum-labor">₱0.00</dd></div>
+            <div><dt>Direct fees</dt><dd id="sum-fees">₱0.00</dd></div>
+            <div class="summary__rule"><dt>Subtotal</dt><dd id="sum-subtotal">₱0.00</dd></div>
+            <div><dt id="sum-vat-label">VAT (Non-VAT)</dt><dd id="sum-vat">₱0.00</dd></div>
+            <div class="summary__grand"><dt>Grand total</dt><dd id="sum-grand">₱0.00</dd></div>
+          </dl>
+          <div id="completeness" class="completeness"></div>
+          <div class="summary__actions">
+            <button id="save-quotation" class="btn btn--primary" type="button">Save</button>
+            <a class="btn" href="#/preview">Preview</a>
+          </div>
+          <p id="save-status" class="save-status" role="status" aria-live="polite"></p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ Preview ============ -->
+  <section id="view-preview" class="view" hidden>
+    <div class="view__head no-print">
+      <div>
+        <h1>Preview</h1>
+        <p class="muted">Exactly what your client receives.</p>
+      </div>
+      <div class="view__head-actions">
+        <button id="print-btn" class="btn btn--primary" type="button">Print / Save as PDF</button>
+        <button id="download-md" class="btn" type="button">Download .md</button>
+        <button id="download-json" class="btn" type="button">Download .json</button>
+        <button id="copy-md" class="btn" type="button">Copy Markdown</button>
+      </div>
+    </div>
+    <div id="preview-warnings" class="no-print"></div>
+    <article id="quotation-paper" class="paper"></article>
+  </section>
+
+  <!-- ============ Settings ============ -->
+  <section id="view-settings" class="view" hidden>
+    <div class="view__head"><h1>Settings</h1></div>
+
+    <section class="panel panel--static">
+      <h2>Import a quotation</h2>
+      <p class="muted">Accepts the same JSON shape as <code>examples/sample_input.json</code>, so files move freely between LogicQuot and the original Claude Code project.</p>
+      <input id="import-file" type="file" accept="application/json,.json" />
+      <p id="import-status" class="save-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="panel panel--static">
+      <h2>Backup</h2>
+      <p class="muted">Every quotation on this device, as one JSON file.</p>
+      <div class="view__head-actions">
+        <button id="export-all" class="btn" type="button">Export all</button>
+        <button id="clear-all" class="btn btn--danger" type="button">Delete all data</button>
+      </div>
+    </section>
+
+    <section class="panel panel--static">
+      <h2>Calculation rules</h2>
+      <ol class="rules">
+        <li>Raw total = qty × unit cost; final price = raw total × (1 + markup ÷ 100).</li>
+        <li>Materials subtotal shows both the raw sum and the marked-up sum.</li>
+        <li>Labor = workers × daily rate × days, or the flat fee when one is given.</li>
+        <li>Direct fees = mobilization + permits + equipment rental + any extra fees.</li>
+        <li>Subtotal = materials + labor + direct fees.</li>
+        <li>VAT = subtotal × 12%, only when VAT status is “12% VAT”.</li>
+        <li>Grand total = subtotal + VAT. Nothing is rounded until it is displayed.</li>
+      </ol>
+    </section>
+
+    <section class="panel panel--static">
+      <h2>About</h2>
+      <p class="muted">LogicQuot <span id="app-version"></span> — an offline-first PWA port of the PH Quotation Generator. All data stays in this browser.</p>
+    </section>
+  </section>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>
